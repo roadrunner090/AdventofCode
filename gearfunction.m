@@ -1,129 +1,5 @@
-clc;
-clear variables;
-data = importdata('day3puzzleinput.txt');
-prodata = char(length(data),length(data));
-for i = 1:length(data)
-    for p = 1:length(data)
-    prodata(i,p) = data{i}(p);  %Mikey, we went indexing
-    end
-end
+function gearratio = gearfunction(prodata)
 
-langepuntunit = '............................................................................................................................................';
-langepuntunit = langepuntunit';
-%sommige variables hebben geen uitleg nodig hoop ik
-
-prodata = cat(2,langepuntunit,prodata);
-prodata = cat(2,langepuntunit,prodata);
-prodata = cat(2,prodata,langepuntunit);
-prodata = cat(2,prodata,langepuntunit);
-
-%% begin with part1
-
-onedigit = digitsPattern(1);
-twodigit = digitsPattern(2);
-threedigit = digitsPattern(3);
-punt = ".";     %mooie aan matlab, 'dot' is al een functie LMFAO
-punt3 = "...";
-punt4 = "....";
-punt5 = "....."; %there must be a better way but lazy bastard
-
-partnumbersum = 0;
-
-for i = 1:height(prodata)          %i because i forgor
-    for c = 3:(width(prodata)-2)          %c because column
-        if i == 1    %exception if first or last row
-             if contains(prodata(i,c),onedigit) && ~contains(prodata(i,c:(c+1)),twodigit) && ~contains(prodata(i,c:(c+2)),threedigit) && ~contains(prodata(i,(c-1):c),twodigit) && ~contains(prodata(i,(c-2):c),threedigit)
-%                 locations1 = strfind(prodata(i,c),onedigit);
-%                 locations2 = strfind(prodata(i,c),twodigit);
-%                 locations3 = strfind(prodata(i,c),threedigit);
-
-                    if ~contains(prodata(i,c-1),punt) || ~contains(prodata(i,c+1),punt) || ~contains(prodata(i+1,(c-1):(c+1)),punt3)
-                        partnumbersum = partnumbersum + str2double(prodata(i,c));
-                    end
-                    
-             end
-                
-             if contains(prodata(i,c:(c+1)),twodigit) && ~contains(prodata(i,c:(c+2)),threedigit) && ~contains(prodata(i,(c-1):(c+1)),threedigit)
-                    if ~contains(prodata(i,c-1),punt) || ~contains(prodata(i,c+2),punt) || ~contains(prodata(i+1,(c-1):(c+2)),punt4)
-                        partnumbersum = partnumbersum + str2double(prodata(i,c:c+1));
-                    end                 
-             end
-            
-             if contains(prodata(i,c:(c+2)),threedigit) 
-                    if ~contains(prodata(i,c-1),punt) || ~contains(prodata(i,c+3),punt) || ~contains(prodata(i+1,(c-1):(c+3)),punt5)
-                        partnumbersum = partnumbersum + str2double(prodata(i,c:c+2));
-                    end
-             end
-            
-            
-         elseif i == height(prodata)%LAST ROW
-             if contains(prodata(i,c),onedigit) && ~contains(prodata(i,c:(c+1)),twodigit) && ~contains(prodata(i,c:(c+2)),threedigit) && ~contains(prodata(i,(c-1):c),twodigit) && ~contains(prodata(i,(c-2):c),threedigit)
-                    if ~contains(prodata(i,c-1),punt) || ~contains(prodata(i,c+1),punt) || ~contains(prodata(i-1,(c-1):(c+1)),punt3)
-                        partnumbersum = partnumbersum + str2double(prodata(i,c));
-                    end
-             end
-             if contains(prodata(i,c:(c+1)),twodigit) && ~contains(prodata(i,c:(c+2)),threedigit) && ~contains(prodata(i,(c-1):(c+1)),threedigit)
-                    if ~contains(prodata(i,c-1),punt) || ~contains(prodata(i,c+2),punt) || ~contains(prodata(i-1,(c-1):(c+2)),punt4)
-                        partnumbersum = partnumbersum + str2double(prodata(i,c:c+1));
-                    end
-             end
-             if contains(prodata(i,c:(c+2)),threedigit)
-                    if ~contains(prodata(i,c-1),punt) || ~contains(prodata(i,c+3),punt) || ~contains(prodata(i-1,(c-1):(c+3)),punt5)
-                        partnumbersum = partnumbersum + str2double(prodata(i,c:c+2));
-                    end
-             end
-             
-                 
-                 
-        else %ALL OTHER ROWS
-            
-             if contains(prodata(i,c),onedigit) && ~contains(prodata(i,c:(c+1)),twodigit) && ~contains(prodata(i,c:(c+2)),threedigit) && ~contains(prodata(i,(c-1):c),twodigit) && ~contains(prodata(i,(c-2):c),threedigit)
-                    if ~contains(prodata(i,c-1),punt) || ~contains(prodata(i,c+1),punt) || ~contains(prodata(i-1,(c-1):(c+1)),punt3) || ~contains(prodata(i+1,(c-1):(c+1)),punt3)
-                        partnumbersum = partnumbersum + str2double(prodata(i,c));
-                    end
-             end
-             if contains(prodata(i,c:(c+1)),twodigit) && ~contains(prodata(i,c:(c+2)),threedigit) && ~contains(prodata(i,(c-1):(c+1)),threedigit)
-                    if ~contains(prodata(i,c-1),punt) || ~contains(prodata(i,c+2),punt) || ~contains(prodata(i-1,(c-1):(c+2)),punt4) || ~contains(prodata(i+1,(c-1):(c+2)),punt4)
-                        partnumbersum = partnumbersum + str2double(prodata(i,c:c+1));
-                    end
-             end
-             if contains(prodata(i,c:(c+2)),threedigit)
-                    if ~contains(prodata(i,c-1),punt) || ~contains(prodata(i,c+3),punt) || ~contains(prodata(i-1,(c-1):(c+3)),punt5) || ~contains(prodata(i+1,(c-1):(c+3)),punt5)
-                        partnumbersum = partnumbersum + str2double(prodata(i,c:c+2));
-                    end
-             end            
-        end
-    end
-end
-
-%you dizzy yet?
-
-%% part 2
-
-%initialization again:
-
-clc;
-clear variables;
-tic;
-data = importdata('day3puzzleinput.txt');
-prodata = char(length(data),length(data));
-
-for i = 1:length(data)
-    for p = 1:length(data)
-    prodata(i,p) = data{i}(p);  %Mikey, we went indexing
-    end
-end
-toc;
-langepuntunit = '............................................................................................................................................';
-langepuntunit = langepuntunit';
-%sommige variables hebben geen uitleg nodig hoop ik
-
-prodata = cat(2,langepuntunit,prodata);
-prodata = cat(2,langepuntunit,prodata);
-prodata = cat(2,prodata,langepuntunit);
-prodata = cat(2,prodata,langepuntunit);
-% Voor als je jezelf echt haat maar op een of andere manier komt dopamine vrij
-% hiermee...
 onedigit = digitsPattern(1);
 twodigit = digitsPattern(2);
 threedigit = digitsPattern(3);
@@ -141,18 +17,13 @@ starcount = 0;
 gearlist = zeros(1,354);
 gearnumber = 0;
 
-% gearratio = gearfunction(prodata);
-
-
-
-
 for i = 2:height(prodata)-1
 % for i = 2:12
     for c = 3:width(prodata)-2
 %     for c = 66
         if contains(prodata(i,c),star)  %FERRARI: we are checking
             starcount = starcount + 1;
-            if (contains(prodata(i-1,c-1),onedigit) && ~contains(prodata(i-1,c:(c+1)),onedigit)) || (contains(prodata(i-1,c+1),onedigit) && ~contains(prodata(i-1,(c-1):c),onedigit)) || (contains(prodata(i-1,c),onedigit) && ~contains(prodata(i-1,c-1),onedigit) && ~contains(prodata(i-1,c+1),onedigit)) || (contains(prodata(i-1,(c-1):c),twodigit) && ~contains(prodata(i-1,c+1),onedigit)) || (contains(prodata(i-1,c:(c+1)),twodigit) && ~contains(prodata(i-1,c-1),onedigit)) || contains(prodata(i-1,(c-1):(c+1)),threedigit)
+            if (contains(prodata(i-1,c-1),onedigit) && ~contains(prodata(i-1,c:(c+1)),onedigit)) || contains(prodata(i-1,c+1),onedigit) && ~contains(prodata(i-1,(c-1):c),onedigit) || contains(prodata(i-1,c),onedigit)
                 digitcount = digitcount + 1;
                 above = true; %These booleans will help us later, trust me
             end
@@ -167,18 +38,18 @@ for i = 2:height(prodata)-1
                 right = true;
             end
             
-            if (contains(prodata(i+1,c-1),onedigit) && ~contains(prodata(i+1,c:(c+1)),onedigit)) || (contains(prodata(i+1,c+1),onedigit) && ~contains(prodata(i+1,(c-1):c),onedigit)) || (contains(prodata(i+1,c),onedigit) && ~contains(prodata(i+1,c-1),onedigit) && ~contains(prodata(i+1,c+1),onedigit)) || (contains(prodata(i+1,(c-1):c),twodigit) && ~contains(prodata(i+1,c+1),onedigit)) || (contains(prodata(i+1,c:(c+1)),twodigit) && ~contains(prodata(i+1,c-1),onedigit)) || contains(prodata(i+1,(c-1):(c+1)),threedigit)
+            if (contains(prodata(i+1,c-1),onedigit) && ~contains(prodata(i+1,c:(c+1)),onedigit)) || contains(prodata(i+1,c+1),onedigit) && ~contains(prodata(i+1,(c-1):c),onedigit) || contains(prodata(i+1,c),onedigit)
                 digitcount = digitcount + 1;
                 below = true;
             end
             
-            if contains(prodata(i-1,(c-1)),onedigit) && contains(prodata(i-1,(c+1)),onedigit) && ~contains(prodata(i-1,c),onedigit)
+            if contains(prodata(i-1,(c-1)),onedigit) && contains(prodata(i-1,(c+1)),onedigit)
                 digitcount = 2;
                 doubleabove = true;
                
             end
             
-            if contains(prodata(i+1,(c-1)),onedigit) && contains(prodata(i+1,(c+1)),onedigit) && ~contains(prodata(i+1,c),onedigit)
+            if contains(prodata(i+1,(c-1)),onedigit) && contains(prodata(i+1,(c+1)),onedigit)
                 digitcount = 2;
                 doublebelow = true;
             end
@@ -226,7 +97,6 @@ for i = 2:height(prodata)-1
                    numberleft = str2double(cell2mat(numberleft));
                    
                    %begin 'abovecode'
-                 
                    if contains(prodata(i-1,c-1),onedigit) && contains(prodata(i-1,(c-3):(c-1)),threedigit)
                         numberabove = regexp(prodata(i-1,(c-3):(c-1)),'[0-9]','match');
                         numberabove = str2double(cell2mat(numberabove));
@@ -268,8 +138,7 @@ for i = 2:height(prodata)-1
                    elseif contains(prodata(i-1,c+1),onedigit) && ~contains(prodata(i-1,c),onedigit) && ~contains(prodata(i-1,c+2),onedigit)
                         numberabove = regexp(prodata(i-1,c+1),'[0-9]','match');
                         numberabove = str2double(cell2mat(numberabove));
-                   end                   
-                   
+                   end
                    %end 'abovecode'
                    gearstore = numberleft*numberabove;
                    gearratio = gearratio + numberleft*numberabove;
@@ -279,6 +148,7 @@ for i = 2:height(prodata)-1
                     numberleft = str2double(cell2mat(numberleft));
                    
                     %begin 'belowcode' WIP change this to check below!
+                        
                    if contains(prodata(i+1,c-1),onedigit) && contains(prodata(i+1,(c-3):(c-1)),threedigit)
                         numberbelow = regexp(prodata(i+1,(c-3):(c-1)),'[0-9]','match');
                         numberbelow = str2double(cell2mat(numberbelow));
@@ -320,8 +190,8 @@ for i = 2:height(prodata)-1
                    elseif contains(prodata(i+1,c+1),onedigit) && ~contains(prodata(i+1,c),onedigit) && ~contains(prodata(i+1,c+2),onedigit)
                         numberbelow = regexp(prodata(i+1,c+1),'[0-9]','match');
                         numberbelow = str2double(cell2mat(numberbelow));
-                   end       
-                      
+                   end                    
+                    
                     %end 'belowcode' WIP
                     gearstore = numberleft*numberbelow;
                     gearratio = gearratio + numberleft*numberbelow;
@@ -373,9 +243,8 @@ for i = 2:height(prodata)-1
                    elseif contains(prodata(i-1,c+1),onedigit) && ~contains(prodata(i-1,c),onedigit) && ~contains(prodata(i-1,c+2),onedigit)
                         numberabove = regexp(prodata(i-1,c+1),'[0-9]','match');
                         numberabove = str2double(cell2mat(numberabove));
-                   end
-                   
-                   %end 'abovecode'
+                   end                    
+                    %end 'abovecode'
                     gearstore = numberright*numberabove;
                     gearratio = gearratio + numberright*numberabove;
                     
@@ -425,8 +294,8 @@ for i = 2:height(prodata)-1
                    elseif contains(prodata(i+1,c+1),onedigit) && ~contains(prodata(i+1,c),onedigit) && ~contains(prodata(i+1,c+2),onedigit)
                         numberbelow = regexp(prodata(i+1,c+1),'[0-9]','match');
                         numberbelow = str2double(cell2mat(numberbelow));
-                   end       
-                     %end 'belowcode'
+                   end                     
+                   %end 'belowcode'
                    gearstore = numberbelow*numberright;
                    gearratio = gearratio + numberbelow*numberright;
                    
@@ -434,6 +303,7 @@ for i = 2:height(prodata)-1
                 elseif above && below
                     
                     %begin above code:
+                    
                    if contains(prodata(i-1,c-1),onedigit) && contains(prodata(i-1,(c-3):(c-1)),threedigit)
                         numberabove = regexp(prodata(i-1,(c-3):(c-1)),'[0-9]','match');
                         numberabove = str2double(cell2mat(numberabove));
@@ -475,8 +345,11 @@ for i = 2:height(prodata)-1
                    elseif contains(prodata(i-1,c+1),onedigit) && ~contains(prodata(i-1,c),onedigit) && ~contains(prodata(i-1,c+2),onedigit)
                         numberabove = regexp(prodata(i-1,c+1),'[0-9]','match');
                         numberabove = str2double(cell2mat(numberabove));
-                   end                    
-                    
+                   end
+                   %end 'abovecode'
+                   
+                   %begin 'belowcode'
+                   
                    if contains(prodata(i+1,c-1),onedigit) && contains(prodata(i+1,(c-3):(c-1)),threedigit)
                         numberbelow = regexp(prodata(i+1,(c-3):(c-1)),'[0-9]','match');
                         numberbelow = str2double(cell2mat(numberbelow));
@@ -518,8 +391,7 @@ for i = 2:height(prodata)-1
                    elseif contains(prodata(i+1,c+1),onedigit) && ~contains(prodata(i+1,c),onedigit) && ~contains(prodata(i+1,c+2),onedigit)
                         numberbelow = regexp(prodata(i+1,c+1),'[0-9]','match');
                         numberbelow = str2double(cell2mat(numberbelow));
-                   end       
-                     
+                   end                     
                    %end 'belowcode'
                    
                    gearstore = numberabove*numberbelow;
@@ -556,9 +428,6 @@ for i = 2:height(prodata)-1
         clear numberabove numberbelow numberleft numberright numberbelow1 numberbelow2 numberabove1 numberabove2
     end
 end
-toc;
 
 
-
-
-
+end
