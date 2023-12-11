@@ -173,7 +173,8 @@ rank = 1:1000;
 answer = sum(supermatrix(:,1).*rank');
 toc;
 
-%leuk filmpje linkje: 
+%leuk filmpje linkje: https://www.youtube.com/watch?v=KAWU2Vfoq8Q
+%Ik ben vrij zeker dat je deze nog niet hebt gezien!
 
 %% part 2
 
